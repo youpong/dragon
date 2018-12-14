@@ -7,6 +7,7 @@ int lookahead;
 int main() {
   lookahead = getchar();
   expr();
+  putchar('\n');
   
   return EXIT_SUCCESS;
 }
