@@ -1,14 +1,7 @@
 #include <ctype.h>
 #include <stdio.h>
+#include "main.h"
 
-void expr();
-void rest();
-void term();
-
-void error();
-void match(const char);
-
-extern char lookahead;
 
 /*
  * expr: term rest
@@ -40,6 +33,3 @@ void term() {
     putchar(lookahead); match(lookahead);
   } else error();
 }
-
-
-      
