@@ -3,8 +3,6 @@
 #include "main.h"
 #include "util.h"
 
-int tokenval;
-
 /*
  * 最適化: rest() 内での尾部再帰を繰り返しで置き換えたら、
  * rest() の呼び出しは expr からのみとなるため、 expr() 内に
@@ -35,9 +33,12 @@ void rest() {
  * term: '9' { print('9') }
  */
 void term() {
+  factor();
+  /*
   if (isdigit(lookahead)) {
     putchar(lookahead); match(lookahead);
   } else error("syntax error");
+  */
 }
 
 /*
@@ -54,7 +55,7 @@ void factor() {
 
 void match(const int c) {
   if(lookahead == c)
-    lookahead = getchar();
+    lookahead = lexan();
   else
     error("syntax error");
 }

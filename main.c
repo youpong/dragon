@@ -5,7 +5,7 @@
 int lookahead;
 
 int main() {
-  lookahead = getchar();
+  lookahead = lexan();
   expr();
   putchar('\n');
   

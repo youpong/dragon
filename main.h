@@ -1,3 +1,4 @@
+/* parse.c */
 void expr();
 void rest();
 void term();
@@ -5,8 +6,10 @@ void factor();
 
 void match(const int);
 
-extern int lookahead;
+/* lexan.c */
+int lexan();
 
+extern int lookahead;
 extern int tokenval;
 
 typedef enum {
