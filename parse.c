@@ -4,6 +4,17 @@
 #include "util.h"
 
 /*
+ *
+ */
+void stmt() {
+  if (lookahead.type == IDENT) {
+    emit_lvalue(lookahead.val); match(IDENT);match('=');expr();emit('=');
+  } else if(lookahead.type == IF) {
+  } else
+    error("syntax error");
+}
+
+/*
  * 最適化: rest() 内での尾部再帰を繰り返しで置き換えたら、
  * rest() の呼び出しは expr からのみとなるため、 expr() 内に
  * rest() の処理を統合することができる。
@@ -20,10 +31,10 @@ void expr() {
  * rest: ε                            # (3)
  */
 void rest() {
-  if (lookahead == '+') { 
-    match('+'); term(); putchar('+'); rest(); // (1)
-  } else if (lookahead == '-') {
-    match('-'); term(); putchar('-'); rest(); // (2)
+  if (lookahead.type == '+') { 
+    match('+'); term(); emit('+'); rest(); // (1)
+  } else if (lookahead.type == '-') {
+    match('-'); term(); emit('-'); rest(); // (2)
   } else ;                                    // (3) 
 }
 
@@ -46,15 +57,15 @@ void term() {
  *       | num { print(num.value) }
  */
 void factor() {
-  if (lookahead == '(') {
+  if (lookahead.type == '(') {
     match('('); expr(); match(')');
-  } else if (lookahead == NUM) {
-    printf(" %d ", tokenval); match(NUM);
+  } else if (lookahead.type == NUM) {
+    emit_NUM(lookahead.val); match(NUM);
   } else error("syntax error");
 }
 
 void match(const int c) {
-  if(lookahead == c)
+  if(lookahead.type == c)
     lookahead = lexan();
   else
     error("syntax error");

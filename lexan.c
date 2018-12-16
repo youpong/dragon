@@ -6,28 +6,30 @@
 #define NONE -1; // adhoc
 
 int lineno = 1;
-int tokenval; // = NONE;
 
-int lexan() {
-  int t;
+TOKEN lexan() {
+  int c;
+  TOKEN token;
+  
   while(true) {
-    t = getchar();
-    if (t == ' ' || t == '\t')
+    c = getchar();
+    if (c == ' ' || c == '\t')
       ;
-    else if( t == '\n' )
+    else if( c == '\n' )
       lineno++;
-    else if( isdigit(t) ) {
-      tokenval = t - '0';
-      t = getchar();
-      while( isdigit(t) ) {
-	tokenval = tokenval*10 + t - '0';
-	t = getchar();
+    else if( isdigit(c) ) {
+      token.val = c - '0';
+      c = getchar();
+      while( isdigit(c) ) {
+	token.val = token.val*10 + c - '0';
+	c = getchar();
       }
-      ungetc(t, stdin);
-      return NUM;
+      ungetc(c, stdin);
+      token.type = NUM;
+      return token;
     } else {
-      //tokenval = NONE;
-      return t;
+      token.type = c;
+      return token;
     }
   }
 }

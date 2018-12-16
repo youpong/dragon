@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "main.h"
 
-int lookahead;
+TOKEN lookahead;
 
 int main() {
   lookahead = lexan();
