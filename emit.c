@@ -18,3 +18,7 @@ void emit_NUM(int val) {
 
 void emit_lvalue(int val) {
 }
+
+void emit2(char *str, int n) {
+  printf("%s %d\n", str, n);
+}
