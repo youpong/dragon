@@ -6,7 +6,8 @@ TOKEN lookahead;
 
 int main() {
   lookahead = lexan();
-  expr();
+  //expr();
+  stmt();
   putchar('\n');
   
   return EXIT_SUCCESS;

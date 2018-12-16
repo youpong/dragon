@@ -3,13 +3,18 @@
 #include "main.h"
 #include "util.h"
 
+int newlabel = 0;
 /*
  *
  */
 void stmt() {
   if (lookahead.type == IDENT) {
-    emit_lvalue(lookahead.val); match(IDENT);match('=');expr();emit('=');
+    emit2("lvalue", lookahead.val); match(IDENT);match('=');expr();emit('=');
   } else if(lookahead.type == IF) {
+    int out;
+    match(IF); expr(); out = newlabel++; emit2("gofalse", out); match(THEN);
+    stmt();
+    emit2("label", out);
   } else
     error("syntax error");
 }
