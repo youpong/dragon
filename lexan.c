@@ -10,8 +10,11 @@ int lineno = 1;
 TOKEN lexan() {
   int c;
   TOKEN token;
+  char buf[100];
+  char *p;
   
   while(true) {
+    p = buf;
     c = getchar();
     if (c == ' ' || c == '\t')
       ;
@@ -27,6 +30,20 @@ TOKEN lexan() {
       ungetc(c, stdin);
       token.type = NUM;
       return token;
+    } else if( isalpha(c) ) {
+      *p++ = c;
+      c = getchar();
+      while( isalnum(c) ) {
+	*p++ = c;
+	c = getchar();
+      }
+      ungetc(c, stdin);
+      *p = '\0';
+
+      token.type = IDENT;
+      token.val = lookup(buf);
+      if( token.val == 0 )
+	token.val = insert(buf);
     } else {
       token.type = c;
       return token;
