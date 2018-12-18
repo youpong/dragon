@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include "util.h"
+
 /* var */
 int insert(char *);
 int lookup(char *);
@@ -29,9 +32,18 @@ typedef struct {
 TOKEN lexan();
 
 extern TOKEN lookahead;
+extern FILE *yyin;
 
 /* emit */
 void emit(TOKEN_TYPE);
 void emit_NUM(int);
 void emit2(char *, int);
 
+/* var_tab */
+extern Vector *symtab;
+extern Vector *lexemes;
+
+typedef struct {
+  char *lexptr;
+  TOKEN_TYPE *token;
+} SYM_REC;

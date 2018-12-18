@@ -15,29 +15,29 @@ TOKEN lexan() {
   
   while(true) {
     p = buf;
-    c = getchar();
+    c = getc(yyin);
     if (c == ' ' || c == '\t')
       ;
     else if( c == '\n' )
       lineno++;
     else if( isdigit(c) ) {
       token.val = c - '0';
-      c = getchar();
+      c = getc(yyin);
       while( isdigit(c) ) {
 	token.val = token.val*10 + c - '0';
-	c = getchar();
+	c = getc(yyin);
       }
-      ungetc(c, stdin);
+      ungetc(c, yyin);
       token.type = NUM;
       return token;
     } else if( isalpha(c) ) {
       *p++ = c;
-      c = getchar();
+      c = getc(yyin);
       while( isalnum(c) ) {
 	*p++ = c;
-	c = getchar();
+	c = getc(yyin);
       }
-      ungetc(c, stdin);
+      ungetc(c, yyin);
       *p = '\0';
 
       token.type = IDENT;
