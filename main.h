@@ -35,6 +35,7 @@ extern FILE *yyin;
 void emit(TOKEN_TYPE);
 void emit_NUM(int);
 void emit2(char *, int);
+void emit3(char *);
 
 /* var_tab */
 int insert(char *, TOKEN_TYPE);

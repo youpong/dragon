@@ -8,15 +8,18 @@ int newlabel = 0;
  *
  */
 void stmt() {
+  char buf[100];
   if (lookahead.type == IDENT) {
     emit2("lvalue", lookahead.val); match(IDENT);match('=');expr();emit('=');
     match(';');
   } else if(lookahead.type == IF) {
-    int out;
+    int out = newlabel++;
     match(IF); match('('); expr(); match(')');
-    out = newlabel++; emit2("gofalse", out); 
+    sprintf(buf, "gofalse L%d", out);
+    emit3(buf); 
     expr();
-    emit2("label", out);
+    sprintf(buf, "L%d:", out);
+    emit3(buf);
   } else
     error("syntax error");
 }
