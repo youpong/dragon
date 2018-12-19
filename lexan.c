@@ -42,8 +42,11 @@ TOKEN lexan() {
 
       token.type = IDENT;
       token.val = lookup(buf);
-      if( token.val == 0 )
-	token.val = insert(buf);
+      if( token.val == -1 ) 
+	token.val = insert(buf, IDENT);
+      else
+	token.type = ((SYM_REC*)symtab->data[token.val])->token;
+      return token;
     } else {
       token.type = c;
       return token;

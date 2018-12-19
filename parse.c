@@ -10,10 +10,12 @@ int newlabel = 0;
 void stmt() {
   if (lookahead.type == IDENT) {
     emit2("lvalue", lookahead.val); match(IDENT);match('=');expr();emit('=');
+    match(';');
   } else if(lookahead.type == IF) {
     int out;
-    match(IF); expr(); out = newlabel++; emit2("gofalse", out); match(THEN);
-    stmt();
+    match(IF); match('('); expr(); match(')');
+    out = newlabel++; emit2("gofalse", out); 
+    expr();
     emit2("label", out);
   } else
     error("syntax error");
@@ -66,7 +68,10 @@ void factor() {
     match('('); expr(); match(')');
   } else if (lookahead.type == NUM) {
     emit_NUM(lookahead.val); match(NUM);
-  } else error("syntax error");
+  } else if (lookahead.type == IDENT) {
+    emit2("rvalue", lookahead.val); match(IDENT);
+  } else
+    error("syntax error");
 }
 
 void match(const int c) {

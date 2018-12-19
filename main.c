@@ -6,14 +6,15 @@
 FILE *yyin;
 TOKEN lookahead;
 Vector *symtab;
-Vector *lexemes;
+char *lexemes;
 
 int main(int argc, char **argv) {
   symtab = new_vector();
-  lexemes = new_vector();
+  lexemes = (char *)malloc(sizeof(char) * 100);
 
   //  insert("div", div);
   //  insert("mod", mod);
+  insert("if", IF);
 
   switch (argc) {
   case 1:
@@ -23,6 +24,7 @@ int main(int argc, char **argv) {
     if(yyin == NULL) {
       error("file cannot open");
     }
+    break;
   default:
     fprintf(stderr, "Usage: %s [FILE]\n", argv[0]);
     return EXIT_FAILURE;
@@ -31,6 +33,7 @@ int main(int argc, char **argv) {
   lookahead = lexan();
 
   stmt();
+  //expr();
   putchar('\n');
   
   return EXIT_SUCCESS;

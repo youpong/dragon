@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include "util.h"
 
-/* var */
-int insert(char *);
-int lookup(char *);
 
 /* parse.c */
 void stmt();
@@ -40,10 +37,14 @@ void emit_NUM(int);
 void emit2(char *, int);
 
 /* var_tab */
+int insert(char *, TOKEN_TYPE);
+int lookup(char *);
+
 extern Vector *symtab;
-extern Vector *lexemes;
+extern char *lexemes;
 
 typedef struct {
   char *lexptr;
-  TOKEN_TYPE *token;
+  TOKEN_TYPE token;
 } SYM_REC;
+
