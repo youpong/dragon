@@ -29,11 +29,8 @@ int main(int argc, char **argv) {
     fprintf(stderr, "Usage: %s [FILE]\n", argv[0]);
     return EXIT_FAILURE;
   }
-  
-  lookahead = lexan();
 
-  stmt();
-  //expr();
+  parse();
   putchar('\n');
   
   return EXIT_SUCCESS;

@@ -1,9 +1,8 @@
+/* lexer.c */
 #include <stdio.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include "main.h"
-
-#define NONE -1; // adhoc
 
 int lineno = 1;
 
@@ -11,16 +10,14 @@ TOKEN lexan() {
   int c;
   TOKEN token;
   char buf[100];
-  char *p;
   
   while(true) {
-    p = buf;
     c = getc(yyin);
-    if (c == ' ' || c == '\t')
+    if (c == ' ' || c == '\t') /* ignore white space */
       ;
     else if( c == '\n' )
       lineno++;
-    else if( isdigit(c) ) {
+    else if( isdigit(c) ) { /* TOKEN_TYPE: NUM */
       token.val = c - '0';
       c = getc(yyin);
       while( isdigit(c) ) {
@@ -30,7 +27,8 @@ TOKEN lexan() {
       ungetc(c, yyin);
       token.type = NUM;
       return token;
-    } else if( isalpha(c) ) {
+    } else if( isalpha(c) ) { /* TOKEN_TYPE: IDENT */
+      char *p = buf;
       *p++ = c;
       c = getc(yyin);
       while( isalnum(c) ) {
@@ -40,12 +38,15 @@ TOKEN lexan() {
       ungetc(c, yyin);
       *p = '\0';
 
-      token.type = IDENT;
       token.val = lookup(buf);
       if( token.val == -1 ) 
 	token.val = insert(buf, IDENT);
-      else
-	token.type = ((SYM_REC*)symtab->data[token.val])->token;
+
+      token.type = ((SYM_REC*)symtab->data[token.val])->token;
+      
+      return token;
+    } else if( c == EOF ) {
+      token.type = DONE;
       return token;
     } else {
       token.type = c;
