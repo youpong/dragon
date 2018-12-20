@@ -1,16 +1,37 @@
+/* parser.c */
 #include <ctype.h>
 #include <stdio.h>
 #include "main.h"
 #include "util.h"
 
+static void stmt();
+static void expr();
+static void rest();
+static void term();
+static void factor();
+
+static void match(const int);
+
 int newlabel = 0;
+
+void parse() {
+  lookahead = lexan();
+  while( lookahead.type != DONE ) 
+    stmt();
+}
+
 /*
  *
  */
-void stmt() {
+static void stmt() {
   char buf[100];
   if (lookahead.type == IDENT) {
-    emit2("lvalue", lookahead.val); match(IDENT);match('=');expr();emit('=');
+    TOKEN token;
+    token.type = '='; 
+    emit3("lvalue "), emit(lookahead); match(IDENT);match('=');
+    expr();
+    //emit(new_token('='));
+    emit(token);
     match(';');
   } else if(lookahead.type == IF) {
     int out = newlabel++;
@@ -30,7 +51,7 @@ void stmt() {
  * rest() の処理を統合することができる。
  * expr: term rest
  */
-void expr() {
+static void expr() {
   term(); rest();
 }
 
@@ -40,11 +61,14 @@ void expr() {
  * rest: '-' term { print('-') } rest # (2)
  * rest: ε                            # (3)
  */
-void rest() {
-  if (lookahead.type == '+') { 
-    match('+'); term(); emit('+'); rest(); // (1)
+static void rest() {
+  TOKEN token;
+  if (lookahead.type == '+') {
+    token.type = '+';
+    match('+'); term(); emit(token); rest(); // (1)
   } else if (lookahead.type == '-') {
-    match('-'); term(); emit('-'); rest(); // (2)
+    token.type = '-';
+    match('-'); term(); emit(token); rest(); // (2)
   } else ;                                    // (3) 
 }
 
@@ -53,7 +77,7 @@ void rest() {
  * ...
  * term: '9' { print('9') }
  */
-void term() {
+static void term() {
   factor();
   /*
   if (isdigit(lookahead)) {
@@ -66,18 +90,18 @@ void term() {
  * factor: '(' expr ')'
  *       | num { print(num.value) }
  */
-void factor() {
+static void factor() {
   if (lookahead.type == '(') {
     match('('); expr(); match(')');
   } else if (lookahead.type == NUM) {
-    emit_NUM(lookahead.val); match(NUM);
+    emit(lookahead); match(NUM);
   } else if (lookahead.type == IDENT) {
-    emit2("rvalue", lookahead.val); match(IDENT);
+    emit3("rvalue "); emit(lookahead); match(IDENT);
   } else
     error("syntax error");
 }
 
-void match(const int c) {
+static void match(const int c) {
   if(lookahead.type == c)
     lookahead = lexan();
   else

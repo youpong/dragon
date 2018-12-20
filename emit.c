@@ -1,28 +1,25 @@
+/* emitter.c */
 #include "main.h"
 #include <stdio.h>
 
-void emit(TOKEN_TYPE type) {
-  switch(type) {
+void emit(TOKEN token) {
+  
+  switch(token.type) {
   case PLUS:
   case MINUS:
-    putchar(type);
+    putchar(token.type);
+    break;
+  case NUM:
+    printf("%d\n", token.val);
+    break;
+  case IDENT:
+    printf("%s\n", ((SYM_REC *)symtab->data[token.val])->lexptr);
     break;
   default:
     break;
   }
 }
 
-void emit_NUM(int val) {
-  printf(" %d ", val);
-}
-
-void emit_lvalue(int val) {
-}
-
-void emit2(char *str, int n) {
-  printf("%s %d\n", str, n);
-}
-
 void emit3(char *str) {
-  printf("%s\n", str);
+  printf("%s", str);
 }
