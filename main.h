@@ -5,10 +5,10 @@
 #define NONE    -1
 #define EOS   '\0'
 
-/* parse.c */
+/* parser.c */
 void parse();
 
-/* lexan.c */
+/* lexer.c */
 typedef enum {
   PLUS = '+',
   MINUS = '-',
@@ -32,11 +32,11 @@ extern int lineno;
 extern TOKEN lookahead;
 extern FILE *yyin;
 
-/* emit */
+/* emitter.c */
 void emit(TOKEN);
 void emit3(char *);
 
-/* var_tab */
+/* symbol.c */
 int insert(char *, TOKEN_TYPE);
 int lookup(char *);
 

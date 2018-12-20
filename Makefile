@@ -1,10 +1,13 @@
 CC = clang
 CFLAGS= -g -Wall -std=c11
+SRCS = main.c parser.c util.c lexer.c emitter.c symbol.c
+OBJS =$(SRCS:.c=.o)
 
 all: calc
 clean:
 	rm -f *.o calc
-calc: main.o parse.o util.o lexan.o emit.o var_tab.o
-	$(CC) -o calc main.o parse.o util.o lexan.o emit.o var_tab.o
-emit.o lexan.o main.o parse.o: main.h
-parse.o util.o: util.h
+calc: $(OBJS)
+	$(CC) -o calc $(OBJS)
+
+$(OBJS): main.h util.h
+
