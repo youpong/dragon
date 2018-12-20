@@ -7,7 +7,7 @@ void emit(TOKEN token) {
   switch(token.type) {
   case PLUS:
   case MINUS:
-    putchar(token.type);
+    printf("%c\n", token.type);
     break;
   case NUM:
     printf("%d\n", token.val);

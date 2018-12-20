@@ -3,12 +3,8 @@
 #include "main.h"
 #include "util.h"
 
-#define EOS 0
-
 int insert(char *str, TOKEN_TYPE type) {
-
   SYM_REC *rec = (SYM_REC *)malloc(sizeof(SYM_REC));
-  //TOKEN *token = (TOKEN *)malloc(sizeof(TOKEN));
 
   // lexptr
   char *p;
