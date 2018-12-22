@@ -3,8 +3,8 @@
 #include <stdio.h>
 
 void emit(TOKEN token) {
-  
-  switch(token.type) {
+
+  switch (token.type) {
   case PLUS:
   case MINUS:
     printf("%c\n", token.type);
@@ -20,6 +20,4 @@ void emit(TOKEN token) {
   }
 }
 
-void emit3(char *str) {
-  printf("%s", str);
-}
+void emit3(char *str) { printf("%s", str); }

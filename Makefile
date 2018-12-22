@@ -11,3 +11,5 @@ calc: $(OBJS)
 
 $(OBJS): main.h util.h
 
+format:
+	clang-format -i $(SRCS) *.h

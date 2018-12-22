@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "util.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 FILE *yyin;
 TOKEN lookahead;
@@ -18,10 +18,11 @@ int main(int argc, char **argv) {
 
   switch (argc) {
   case 1:
-    yyin = stdin; break;
+    yyin = stdin;
+    break;
   case 2:
     yyin = fopen(argv[1], "r");
-    if(yyin == NULL) {
+    if (yyin == NULL) {
       error("file cannot open");
     }
     break;
@@ -32,6 +33,6 @@ int main(int argc, char **argv) {
 
   parse();
   putchar('\n');
-  
+
   return EXIT_SUCCESS;
 }

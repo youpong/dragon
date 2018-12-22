@@ -1,9 +1,9 @@
-#include <stdio.h>
 #include "util.h"
+#include <stdio.h>
 
-#define BSIZE  128
-#define NONE    -1
-#define EOS   '\0'
+#define BSIZE 128
+#define NONE -1
+#define EOS '\0'
 
 /* parser.c */
 void parse();
@@ -47,4 +47,3 @@ typedef struct {
   char *lexptr;
   TOKEN_TYPE token;
 } SYM_REC;
-

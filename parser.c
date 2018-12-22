@@ -1,8 +1,8 @@
 /* parser.c */
-#include <ctype.h>
-#include <stdio.h>
 #include "main.h"
 #include "util.h"
+#include <ctype.h>
+#include <stdio.h>
 
 static void stmt();
 static void expr();
@@ -16,7 +16,7 @@ int newlabel = 0;
 
 void parse() {
   lookahead = lexan();
-  while( lookahead.type != DONE ) 
+  while (lookahead.type != DONE)
     stmt();
 }
 
@@ -26,15 +26,21 @@ void parse() {
 static void stmt() {
   char buf[100];
   if (lookahead.type == IDENT) {
-    emit3("lvalue "), emit(lookahead); match(IDENT);match('=');
+    emit3("lvalue ");
+    emit(lookahead);
+    match(IDENT);
+    match('=');
     expr();
     emit3("=");
     match(';');
-  } else if(lookahead.type == IF) {
+  } else if (lookahead.type == IF) {
     int out = newlabel++;
-    match(IF); match('('); expr(); match(')');
+    match(IF);
+    match('(');
+    expr();
+    match(')');
     sprintf(buf, "gofalse L%d", out);
-    emit3(buf); 
+    emit3(buf);
     expr();
     sprintf(buf, "L%d:", out);
     emit3(buf);
@@ -49,7 +55,8 @@ static void stmt() {
  * expr: term rest
  */
 static void expr() {
-  term(); rest();
+  term();
+  rest();
 }
 
 /*
@@ -63,10 +70,13 @@ static void rest() {
   case '+':
   case '-':
     op = lookahead;
-    match(op.type); term(); emit(op); rest(); // (1)
-  default:                                    // (3)
+    match(op.type);
+    term();
+    emit(op);
+    rest(); // (1)
+  default:  // (3)
     break;
-  } 
+  }
 }
 
 /*
@@ -89,18 +99,23 @@ static void term() {
  */
 static void factor() {
   if (lookahead.type == '(') {
-    match('('); expr(); match(')');
+    match('(');
+    expr();
+    match(')');
   } else if (lookahead.type == NUM) {
-    emit(lookahead); match(NUM);
+    emit(lookahead);
+    match(NUM);
   } else if (lookahead.type == IDENT) {
-    emit3("rvalue "); emit(lookahead); match(IDENT);
+    emit3("rvalue ");
+    emit(lookahead);
+    match(IDENT);
   } else
     error("syntax error");
 }
 
 static void match(TOKEN_TYPE c) {
-  if(lookahead.type != c)
+  if (lookahead.type != c)
     error("syntax error");
-  
+
   lookahead = lexan();
 }
