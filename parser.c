@@ -10,7 +10,7 @@ static void rest();
 static void term();
 static void factor();
 
-static void match(const int);
+static void match(TOKEN_TYPE);
 
 int newlabel = 0;
 
@@ -98,9 +98,9 @@ static void factor() {
     error("syntax error");
 }
 
-static void match(const int c) {
-  if(lookahead.type == c)
-    lookahead = lexan();
-  else
+static void match(TOKEN_TYPE c) {
+  if(lookahead.type != c)
     error("syntax error");
+  
+  lookahead = lexan();
 }
