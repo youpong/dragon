@@ -2,8 +2,8 @@
 #include "main.h"
 #include "util.h"
 #include <ctype.h>
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 static void stmt();
 static void expr();
@@ -59,9 +59,9 @@ static void stmt() {
  */
 static void expr() {
   TOKEN op;
-  
+
   term();
-  while (true) 
+  while (true)
     switch (lookahead.type) {
     case '+': // (1)
     case '-': // (2)
@@ -70,7 +70,7 @@ static void expr() {
       term();
       emit(op);
       break;
-    default:  // (3)
+    default: // (3)
       return;
     }
 }
