@@ -3,6 +3,7 @@
 #include "util.h"
 #include <ctype.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 static void stmt();
 static void expr();
@@ -60,23 +61,24 @@ static void expr() {
 }
 
 /*
- * 最適化: 尾部再帰を繰り返しで置き換えられる。
  * rest: '+' term { print('+') } rest # (1)
+ * rest: '-' term { print('-') } rest # (2)
  * rest: ε                            # (3)
  */
 static void rest() {
   TOKEN op;
-  switch (lookahead.type) {
-  case '+':
-  case '-':
-    op = lookahead;
-    match(op.type);
-    term();
-    emit(op);
-    rest(); // (1)
-  default:  // (3)
-    break;
-  }
+  while (true) 
+    switch (lookahead.type) {
+    case '+': // (1)
+    case '-': // (2)
+      op = lookahead;
+      match(op.type);
+      term();
+      emit(op);
+      break;
+    default:  // (3)
+      return;
+    }
 }
 
 /*
