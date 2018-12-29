@@ -50,23 +50,17 @@ static void stmt() {
 }
 
 /*
- * 最適化: rest() 内での尾部再帰を繰り返しで置き換えたら、
- * rest() の呼び出しは expr からのみとなるため、 expr() 内に
- * rest() の処理を統合することができる。
  * expr: term rest
- */
-static void expr() {
-  term();
-  rest();
-}
-
-/*
  * rest: '+' term { print('+') } rest # (1)
  * rest: '-' term { print('-') } rest # (2)
  * rest: ε                            # (3)
+ * --
+ * expr: term ('+' term { print('+') } | '-' term { print('-') } )*
  */
-static void rest() {
+static void expr() {
   TOKEN op;
+  
+  term();
   while (true) 
     switch (lookahead.type) {
     case '+': // (1)
