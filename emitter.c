@@ -20,4 +20,6 @@ void emit(TOKEN token) {
   }
 }
 
-void emit3(char *str) { printf("%s", str); }
+void emit3(char *str) {
+  printf("%s", str);
+}

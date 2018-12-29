@@ -1,13 +1,22 @@
-CC = clang
-CFLAGS= -g -Wall -std=c11
-SRCS = main.c parser.c util.c lexer.c emitter.c symbol.c
-OBJS =$(SRCS:.c=.o)
+CC = gcc
+CFLAGS = -g -Wall -std=c11 --coverage
+# LIBS = -lefence -lgcov
+LIBS = -lgcov
 
-all: calc
+TARGET = calc
+SRCS = main.c parser.c util.c lexer.c emitter.c symbol.c
+OBJS = $(SRCS:.c=.o)
+
+all: $(TARGET)
 clean:
-	rm -f *.o calc
-calc: $(OBJS)
-	$(CC) -o calc $(OBJS)
+	rm -f $(TARGET) $(OBJS) *.gcov *.gcda *.gcno *~
+gcov:
+	gcov $(SRCS)
+TAGS: $(SRCS) main.h util.h
+	etags $^
+
+$(TARGET): $(OBJS)
+	$(CC) -o $(TARGET) $(OBJS) $(LIBS)
 
 $(OBJS): main.h util.h
 

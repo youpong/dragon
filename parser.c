@@ -7,7 +7,6 @@
 
 static void stmt();
 static void expr();
-static void rest();
 static void term();
 static void factor();
 
