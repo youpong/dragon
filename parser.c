@@ -61,17 +61,13 @@ static void expr() {
 
   term();
   while (true)
-    switch (lookahead.type) {
-    case '+': // (1)
-    case '-': // (2)
+    if (lookahead.type == '+' || lookahead.type == '-') { // (1), (2)
       op = lookahead;
       match(op.type);
       term();
       emit(op);
+    } else // (3)
       break;
-    default: // (3)
-      return;
-    }
 }
 
 /*
